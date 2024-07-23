@@ -18,6 +18,10 @@
 .env.test.local
 .env.production.local
 
+# back-end
+/back-end/credentials.json
+/back-end/mongo-db-data
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
