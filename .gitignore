@@ -22,6 +22,12 @@
 /back-end/credentials.json
 /back-end/mongo-db-data
 
+# build folder
+*/build
+
+#enviroment variables
+*/.env
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
