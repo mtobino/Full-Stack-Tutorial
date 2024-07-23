@@ -9,24 +9,24 @@ const credentials = JSON.parse(
 );
 
 admin.initializeApp({
-    credentials: admin.credential.cert(credentials)
+    credential: admin.credential.cert(credentials)
 });
 
 const app = express();
 app.use(express.json());
 app.use(async (req, res, next) =>{
-    const { Authorization } = req.headers;
-    console.log(req.headers);
+    const Authorization    = req.headers.authorization;
+
     if(Authorization){
         try{
             req.user = await admin.auth().verifyIdToken(Authorization);
         }catch (e) {
+            console.log(e.message);
             return res.sendStatus(400);
         }
     }
-    console.log(req.user);
+
     req.user = req.user || {};
-    console.log(req.user);
     next();
 })
 
@@ -80,8 +80,7 @@ app.put('/api/articles/:name/upvote', async (req, res) => {
 app.post('/api/articles/:name/comments', async (req, res) => {
     const { text } = req.body;
     const { name } = req.params;
-    const { email, uid } = req.user;
-    console.log(req.user);
+    const { email } = req.user;
 
     await db.collection('articles').updateOne({ name }, {
         $push: { comments : {postedBy : email, text} },
